@@ -1,4 +1,5 @@
 #include "OpenGL.h"
+#include "Shader.h"
 
 #include <bits/stdc++.h>
 
@@ -45,39 +46,13 @@ int main() {
     glEnableVertexAttribArray(0);
 
 
-    std::string vertexShaderSource = read("shaders/vertex.glsl");
-    std::string fragmentShaderSource = read("shaders/fragment.glsl");
-
-
-
-    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    const char* vertexShaderSourceC = vertexShaderSource.c_str();
-    glShaderSource(vertexShader, 1, &vertexShaderSourceC, NULL);
-    glCompileShader(vertexShader);
-
-    // GLint success;
-    // GLchar infoLog[512];
-    // glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-
-    // if (!success) {
-    //     glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-    //     std::cerr << "Failed to compile vertex shader: " << infoLog << std::endl;
-    // }
-
-    GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    const char* fragmentShaderSourceC = fragmentShaderSource.c_str();
-    glShaderSource(fragmentShader, 1, &fragmentShaderSourceC, NULL);
-    glCompileShader(fragmentShader);
-
-
-    GLuint shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-
-
-    glLinkProgram(shaderProgram);
-    glUseProgram(shaderProgram);
-
+    Shader shader;
+    shader.addShader("shaders/vertex.glsl", GL_VERTEX_SHADER);
+    shader.addShader("shaders/fragment.glsl", GL_FRAGMENT_SHADER);
+    shader.link();
+    shader.select();
+    shader.defineUniform("color", GL_FLOAT_VEC3);
+    shader.setUniform("color", 1.0f, 0.0f, 0.0f);
 
 
 

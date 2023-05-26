@@ -1,5 +1,8 @@
 #include "OpenGL.h"
-
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
 
 Window createWindow(int width, int height, const char* title) {
     if (!glfwInit()) {
@@ -38,7 +41,7 @@ void destroyWindow(Window window) {
     glfwTerminate();
 }
 
-std::string read(const char* path) {
+std::string readFile(const char* path) {
     std::fstream file(path);
 
     if (!file.is_open()) {

@@ -1,13 +1,10 @@
-#pragma once
-
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
-#include <iostream>
-#include <fstream>
 #include <string>
-#include <sstream>
 
 
 typedef GLFWwindow* Window;
@@ -21,6 +18,7 @@ typedef GLFWwindow* Window;
 */
 Window createWindow(int width, int height, const char* title);
 
+
 /*!
     * \brief Destroys the window and terminates the OpenGL context.
     * \param window The window to destroy.
@@ -28,8 +26,9 @@ Window createWindow(int width, int height, const char* title);
 */
 void destroyWindow(Window window);
 
+
 /*!
     * \brief Reads a file and returns a pointer to the contents of the file.
     * \param path The path to the file.
 */
-std::string read(const char* path);
+std::string readFile(const char* path);
