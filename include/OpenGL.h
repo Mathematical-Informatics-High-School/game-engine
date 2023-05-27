@@ -32,3 +32,5 @@ void destroyWindow(Window window);
     * \param path The path to the file.
 */
 std::string readFile(const char* path);
+
+void printErorr();

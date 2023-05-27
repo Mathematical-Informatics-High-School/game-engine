@@ -30,7 +30,7 @@ void Shader::addShader(const char* path, GLenum type) {
     glAttachShader(program, shaders.back());
 }
 
-void Shader::link() {
+void Shader::link() const {
     glLinkProgram(program);
 }
 

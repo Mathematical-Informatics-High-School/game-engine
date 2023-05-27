@@ -26,6 +26,6 @@ clean:
 .PHONY: clean
 
 run: build/nostalgia3D
-	cd build && ./nostalgia3D
+	./build/nostalgia3D
 
 .PHONY: run

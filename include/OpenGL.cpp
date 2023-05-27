@@ -54,3 +54,10 @@ std::string readFile(const char* path) {
 
     return buffer.str();
 }
+
+void printErorr() {
+    GLenum err;
+    while ((err = glGetError()) != GL_NO_ERROR) {
+        std::cerr << "OpenGL error: " << err << std::endl;
+    }
+}

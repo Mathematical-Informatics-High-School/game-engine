@@ -1,5 +1,6 @@
 #include "OpenGL.h"
 #include "Shader.h"
+#include "Mesh.h"
 
 #include <bits/stdc++.h>
 
@@ -15,58 +16,53 @@ float cords[] = {
 };
 
 
+struct Vertex
+{
+    glm::vec2 position;
+};
+
+Vertex vertices[] = {
+    glm::vec2(-0.5f, -0.5f),
+    glm::vec2( 0.5f, -0.5f),
+    glm::vec2(-0.5f,  0.5f),
+    glm::vec2( 0.5f,  0.5f),
+};
+
+GLuint indices[] = {
+    0, 1, 2,
+    1, 2, 3
+};
+
+
+
+
 
 int main() {
     Window window = createWindow(800, 600, "OpenGL");
 
+    Mesh mesh = Mesh(sizeof(Vertex));
+
+    mesh.addAttribute(2, GL_FLOAT);
+
+    mesh.setVertices(vertices, sizeof(vertices));
+    mesh.setIndices(indices, sizeof(indices));
+
+    mesh.Program.addShader("shaders/vertex.glsl", GL_VERTEX_SHADER);
+    mesh.Program.addShader("shaders/fragment.glsl", GL_FRAGMENT_SHADER);
     
+    mesh.build();
+    
+    mesh.Program.defineUniform("color", GL_FLOAT_VEC3);
+    mesh.Program.setUniform("color", 1.0f, 1.0f, 1.0f);
 
-    GLuint vao;
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
-
-    GLuint vbo;
-    glGenBuffers(1, &vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(
-        GL_ARRAY_BUFFER, 
-        sizeof(cords), 
-        cords, 
-        GL_STATIC_DRAW
-    );
-
-    glVertexAttribPointer(
-        0, 
-        2, 
-        GL_FLOAT, 
-        GL_FALSE, 
-        2 * sizeof(float), 
-        (void*)0
-    );
-    glEnableVertexAttribArray(0);
-
-
-    Shader shader;
-    shader.addShader("shaders/vertex.glsl", GL_VERTEX_SHADER);
-    shader.addShader("shaders/fragment.glsl", GL_FRAGMENT_SHADER);
-    shader.link();
-    shader.select();
-    shader.defineUniform("color", GL_FLOAT_VEC3);
-    shader.setUniform("color", 1.0f, 0.0f, 0.0f);
-
-
-
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
-
-
+    printErorr();
 
 
 
     while(!glfwWindowShouldClose(window))
     {
         glClear(GL_COLOR_BUFFER_BIT);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
+        mesh.draw();
 
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
             glfwSetWindowShouldClose(window, GL_TRUE);
